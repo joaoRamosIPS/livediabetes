@@ -1,0 +1,71 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Entrar";
+    Layout = "~/Areas/Identity/Pages/_AuthLayout.cshtml";
+}
+
+<h4>Inicie sessão e começe já a monitorizar os seus níveis.</h4>
+<hr />
+    <p style="text-align: center;">
+        <img src="~/imagens/logo.png" alt="LiveDiabetes"/>
+    </p>
+
+            <form id="account" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                    <label asp-for="Input.Email" class="form-label">Email</label>
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
+                    <label asp-for="Input.Password" class="form-label">Password</label>
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                <div class="checkbox mb-3">
+                    <label asp-for="Input.RememberMe" class="form-label">
+                        <input class="form-check-input" asp-for="Input.RememberMe" />
+                        Lembrar Password
+                    </label>
+                </div>
+                <div>
+                    <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Entrar</button><p></p><p></p>
+                </div>
+            </form>
+
+                <h6>Continuar com: </h6>
+                <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                    <div>
+                        <p style="text-align: center;">
+
+                            @foreach (var provider in Model.ExternalLogins!)
+                            {
+                                <button type="submit" name="provider" value="@provider.Name" title="Iniciar sessão com o google" style="background: none; border: none; padding: 0;">
+                                    <img src="~/imagens/google3.png" alt="Google icon" style="cursor: pointer;" />
+                                </button>
+                            }
+                        </p>
+                    </div>
+                </form>
+                <div>
+                    <p>
+                        <a id="forgot-password" asp-page="./ForgotPassword">Esqueci-me da password?</a>
+                    </p>
+                    <p>
+                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Ainda não tens uma conta?</a>
+                    </p>
+                </div>
+            
+
+ 
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

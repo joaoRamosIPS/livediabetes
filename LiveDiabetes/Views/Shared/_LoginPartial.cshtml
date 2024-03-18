@@ -1,0 +1,36 @@
+﻿@using LiveDiabetes.Data
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<ul class="navbar-nav">
+@if (SignInManager.IsSignedIn(User))
+{
+    <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Olá @await GetUserName()!</a>
+    </li>
+    <li class="nav-item">
+        <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+            <button  type="submit" class="nav-link btn btn-link text-dark">Sair</button>
+        </form>
+    </li>
+}
+else
+{
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Iniciar Sessão</a>
+    </li>
+}
+</ul>
+
+@functions {
+    public async Task<string> GetUserName()
+    {
+        var user = await UserManager.GetUserAsync(User);
+        if (user != null)
+        {
+            return user.FirstName!= null ? $"{user.FirstName} {user.LastName}" :user.Email;
+        }
+        return "Utilizador Desconhecido";
+    }
+}
