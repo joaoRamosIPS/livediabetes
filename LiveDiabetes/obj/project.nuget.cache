@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "fEAJhtKRc338A4jAg1hWiFlmthe5UnlUnbpUAJf0SphpgTeRc7F4xwXcLnOatK6lq63xVYn30uBgwJm1hhBgUQ==",
+  "dgSpecHash": "gNGPr2Okh4ryhw2SQTnmZHlfI0hDVklulnfNfGx9viRbee0d1I4PIezFWF/T87WVxM4sx+s6dTVVv+SFV1mjQQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\João\\Source\\Repos\\livediabetes\\LiveDiabetes\\LiveDiabetes.csproj",
+  "projectFilePath": "C:\\Users\\João\\source\\repos\\livediabetes\\LiveDiabetes\\LiveDiabetes.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\João\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\João\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",

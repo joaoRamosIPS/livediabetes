@@ -7,8 +7,10 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using LiveDiabetes.Data;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Microsoft.Extensions.Logging;
 
 namespace LiveDiabetes.Areas.Identity.Pages.Account.Manage
@@ -53,17 +55,18 @@ namespace LiveDiabetes.Areas.Identity.Pages.Account.Manage
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
+            [Required(ErrorMessage = "Por favor, insira a sua password.")]
             [DataType(DataType.Password)]
-            [Display(Name = "Current password")]
+            [Display(Name = "Password Atual")]
             public string OldPassword { get; set; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [Required(ErrorMessage = "Por favor, insira a sua password.")]
+            [StringLength(100, ErrorMessage = "A password tem de conter no mínimo 6 caracteres.", MinimumLength = 6)]
+            [RegularExpression(@"^(?=.*[a-z]).+$", ErrorMessage = "A password deve conter pelo menos uma letra.")]
             [DataType(DataType.Password)]
             [Display(Name = "New password")]
             public string NewPassword { get; set; }
@@ -73,8 +76,9 @@ namespace LiveDiabetes.Areas.Identity.Pages.Account.Manage
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm new password")]
-            [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+            [Display(Name = "Confirmar a nova password")]
+            [RegularExpression(@"^(?=.*[0-9]).*$", ErrorMessage = "As passwords têm de conter pelo menos um número.")]
+            [Compare("NewPassword", ErrorMessage = "As passwords não são iguais.")]
             public string ConfirmPassword { get; set; }
         }
 
@@ -124,5 +128,6 @@ namespace LiveDiabetes.Areas.Identity.Pages.Account.Manage
 
             return RedirectToPage();
         }
+
     }
 }

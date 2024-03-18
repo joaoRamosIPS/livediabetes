@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\João\\Source\\Repos\\livediabetes\\LiveDiabetes\\LiveDiabetes.csproj": {}
+    "C:\\Users\\João\\source\\repos\\livediabetes\\LiveDiabetes\\LiveDiabetes.csproj": {}
   },
   "projects": {
-    "C:\\Users\\João\\Source\\Repos\\livediabetes\\LiveDiabetes\\LiveDiabetes.csproj": {
+    "C:\\Users\\João\\source\\repos\\livediabetes\\LiveDiabetes\\LiveDiabetes.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\João\\Source\\Repos\\livediabetes\\LiveDiabetes\\LiveDiabetes.csproj",
+        "projectUniqueName": "C:\\Users\\João\\source\\repos\\livediabetes\\LiveDiabetes\\LiveDiabetes.csproj",
         "projectName": "LiveDiabetes",
-        "projectPath": "C:\\Users\\João\\Source\\Repos\\livediabetes\\LiveDiabetes\\LiveDiabetes.csproj",
+        "projectPath": "C:\\Users\\João\\source\\repos\\livediabetes\\LiveDiabetes\\LiveDiabetes.csproj",
         "packagesPath": "C:\\Users\\João\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\João\\Source\\Repos\\livediabetes\\LiveDiabetes\\obj\\",
+        "outputPath": "C:\\Users\\João\\source\\repos\\livediabetes\\LiveDiabetes\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

@@ -78,27 +78,31 @@ namespace LiveDiabetes.Areas.Identity.Pages.Account
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             /// 
-            [Required]
+            [Required(ErrorMessage = "Por favor, insira o seu primeiro nome.")]
             [DataType(DataType.Text)]
+            [RegularExpression("^[a-zA-ZÀ-ÿ\\s]*$", ErrorMessage = "Este campo não deve conter números ou caracteres especiais.")]
             [Display(Name = "Primeiro Nome")]
             public string FirstName { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Por favor, insira o seu último nome.")]
             [DataType(DataType.Text)]
+            [RegularExpression("^[a-zA-ZÀ-ÿ\\s]*$", ErrorMessage = "Este campo não deve conter números ou caracteres especiais.")]
             [Display(Name = "Último Nome")]
             public string LastName { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Por favor, selecione o seu género.")]
             [DataType(DataType.Text)]
             [Display(Name = "Género")]
             public string Gender { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Por favor, insira a sua data de nascimento.")]
             [DataType(DataType.Date)]
+            [CheckYear(ErrorMessage = "O ano não pode ultrapassar 2018.")]
             [Display(Name = "Data de Nascimento:")]
             public DateTime DateOfBirth { get; set; }
-            [Required]
-            [EmailAddress]
+
+            [Required(ErrorMessage = "Por favor, insira o seu e-mail.")]
+            [EmailAddress(ErrorMessage = "O campo Email não é um endereço de e-mail válido.")]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
@@ -106,8 +110,9 @@ namespace LiveDiabetes.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [Required(ErrorMessage = "Por favor, insira a sua password.")]
+            [StringLength(100, ErrorMessage = "A password tem de conter no mínimo 6 caracteres.", MinimumLength = 6)]
+            [RegularExpression(@"^(?=.*[a-z]).+$", ErrorMessage = "A password deve conter pelo menos uma letra.")]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
@@ -116,10 +121,27 @@ namespace LiveDiabetes.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
+            ///
+            [Required(ErrorMessage = "Por favor, insira a sua password.")]
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [RegularExpression(@"^(?=.*[0-9]).*$", ErrorMessage = "As passwords têm de conter pelo menos um número.")]
+            [Display(Name = "Confirmar password")]
+            [Compare("Password", ErrorMessage = "As passwords não são iguais.")]
             public string ConfirmPassword { get; set; }
+        }
+
+        public class CheckYearAttribute : ValidationAttribute
+        {
+            protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+            {
+                DateTime dt = (DateTime)value;
+                if (dt.Year > 2018)
+                {
+                    return new ValidationResult(ErrorMessage ?? "O ano não pode ultrapassar 2018.");
+                }
+
+                return ValidationResult.Success;
+            }
         }
 
 
@@ -135,6 +157,12 @@ namespace LiveDiabetes.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
+                if (Input.DateOfBirth.Year > 2018)
+                {
+                    ModelState.AddModelError("Input.DateOfBirth", "O ano não pode ultrapassar 2018.");
+                    return Page();
+                }
+
                 var user = CreateUser();
 
                 user.FirstName = Input.FirstName;
@@ -166,10 +194,6 @@ namespace LiveDiabetes.Areas.Identity.Pages.Account
                                                                        $"<p>Por favor, clica no botão abaixo para confirmares o teu registo:</p>" +
                                                                        $" <a href='" + HtmlEncoder.Default.Encode(callbackUrl) + "' style='background-color: #191970; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px;'>Confirmar</a>" +
                                                                        $"<p>Se não solicitaste este registo, por favor, ignora este e-mail.</p>");
-
-                    // $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.
-             
-
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
