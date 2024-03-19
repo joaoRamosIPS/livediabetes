@@ -205,9 +205,20 @@ namespace LiveDiabetes.Areas.Identity.Pages.Account
                         return LocalRedirect(returnUrl);
                     }
                 }
-                foreach (var error in result.Errors)
+                else
                 {
-                    ModelState.AddModelError(string.Empty, error.Description);
+
+                    foreach (var error in result.Errors)
+                    {
+                        if (error.Code == "DuplicateUserName")
+                        {
+                            ModelState.AddModelError(string.Empty, $"O e-mail '{Input.Email}' já está em uso.");
+                        }
+                        else
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                        } 
+                    }
                 }
             }
 
@@ -236,6 +247,8 @@ namespace LiveDiabetes.Areas.Identity.Pages.Account
                 smtpClient.Credentials = new NetworkCredential("201901381@estudantes.ips.pt", "Ips@2000");
                 smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
                 smtpClient.Send(message);
+
+                await smtpClient.SendMailAsync(message);
                 return true;
             }
             catch (Exception ex)
