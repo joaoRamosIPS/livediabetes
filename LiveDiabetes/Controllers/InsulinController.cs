@@ -15,7 +15,7 @@ namespace LiveDiabetes.Controllers
                 double dose = calculator.CalculateInsulinDose(currentValue, idealValue, fsi, carbs, ratio);
 
                 ViewBag.Dose = dose;
-                return View("Tabela");
+                return View("~/Views/Home/Tabela.cshtml");
             }
             catch (Exception ex)
             {
@@ -23,7 +23,7 @@ namespace LiveDiabetes.Controllers
                 Debug.WriteLine(ex.Message);
                 // Inform the user
                 ViewBag.Error = "Houve um erro no cálculo. Por favor, verifique os valores inseridos.";
-                return View("Tabela");
+                return View("~/Views/Home/Tabela.cshtml");
             }
         }
 

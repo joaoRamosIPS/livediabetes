@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LiveDiabetes")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f20231d28deadcd9e15c4e4e9cea8e2fb1718b4e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3d339539d34cee9aba974801e28253345d27f2aa")]
 [assembly: System.Reflection.AssemblyProductAttribute("LiveDiabetes")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LiveDiabetes")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
