@@ -185,10 +185,10 @@
         border-radius: 8px;
     }
 
-  .timeline-container {
+    .timeline-container {
         position: relative;
         width: 100%;
-        padding: 20px 0; /* Espaçamento vertical */
+        padding: 40px 0;
     }
 
     .timeline-line {
@@ -198,40 +198,46 @@
         bottom: 0;
         width: 2px;
         background-color: #007bff;
+        z-index: 1;
     }
 
     .timeline-event {
         position: relative;
         display: flex;
-        justify-content: space-between; /* Isso espaça os filhos do flex container */
-        align-items: center;
-        margin-bottom: 20px;
+        justify-content: space-between; /* Isso irá posicionar os filhos nos extremos opostos */
+        margin-bottom: 30px;
     }
 
     .timeline-date {
-        width: 50px; /* Largura fixa para as caixas de data */
-        font-weight: bold;
+        width: 50px; /* Defina uma largura suficiente para as datas */
         color: #007bff;
-        padding: 0 20px; /* Espaçamento horizontal */
+        font-weight: bold;
+        text-align: center;
+        z-index: 2;
     }
 
     .timeline-content {
-        flex-grow: 1;
+        padding: 10px 20px;
         background-color: #fff;
-        padding: 10px;
         border-radius: 6px;
-        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         position: relative;
-        z-index: 1;
+        z-index: 2;
+        width: calc(50% - 70px); /* Ajusta a largura para não sobrepor a linha do tempo */
     }
 
-    .timeline-event:nth-child(odd) .timeline-content {
-        order: 2; /* Empurra o conteúdo para a direita nos itens ímpares */
-        text-align: right;
+    /* Alinha a data e o conteúdo à esquerda */
+    .timeline-event:nth-of-type(odd) .timeline-date,
+    .timeline-event:nth-of-type(odd) .timeline-content {
+        left: 0;
+        transform: translateX(0);
     }
 
-    .timeline-event:nth-child(even) .timeline-content {
-        order: 1; /* Empurra o conteúdo para a esquerda nos itens pares */
+    /* Alinha a data e o conteúdo à direita */
+    .timeline-event:nth-of-type(even) .timeline-date,
+    .timeline-event:nth-of-type(even) .timeline-content {
+        right: 0;
+        transform: translateX(0);
     }
 
     .timeline-event::before {
@@ -245,8 +251,14 @@
         border-radius: 50%;
         background-color: #007bff;
         border: 3px solid #fff;
-        z-index: 2;
+        z-index: 3;
     }
+
+    /* Remove o pseudo-elemento adicional de dentro do conteúdo */
+    .timeline-event .timeline-content::before {
+        display: none;
+    }
+
 
 </style>
 

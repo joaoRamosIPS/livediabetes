@@ -1,0 +1,101 @@
+﻿@{
+    ViewData["Title"] = "Tabela e Calculadora de Insulina";
+}
+
+<div class="iframe-container">
+    <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSjz8e7_LMw1XjFPO1geyBBYWxh2PZQ6nEkuTJ8zEdph7bKdw3S4urGMWpuCRx3nrG7fitkxSlB2D3n/pubhtml?gid=1433988550&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+</div>
+
+@using (Html.BeginForm("CalculateDose", "Insulin", FormMethod.Post))
+{
+    <label for="currentValue">Valor Atual:</label>
+    <input type="number" id="currentValue" name="currentValue" required />
+
+    <label for="idealValue">Valor Ideal:</label>
+    <input type="number" id="idealValue" name="idealValue" required />
+
+    <label for="fsi">FSI (Fator de Sensibilidade à Insulina):</label>
+    <input type="number" id="fsi" name="fsi" required />
+
+    <label for="carbs">Hidratos de Carbono:</label>
+    <input type="number" id="carbs" name="carbs" required />
+
+    <label for="ratio">Relação Insulina para HC:</label>
+    <input type="number" id="ratio" name="ratio" required />
+
+    <input type="submit" value="Calcular" />
+}
+
+@if (ViewBag.Dose != null)
+{
+    <div>
+        Resultado da Dose de Insulina: @ViewBag.Dose
+    </div>
+}
+
+<style>
+    body {
+        font-family: 'Open Sans', sans-serif;
+        background: linear-gradient(to right, #7F7FD5, #86A8E7, #91EAE4);
+        color: #333;
+        margin: 0;
+        padding: 20px;
+    }
+
+    .iframe-container iframe {
+        width: 100%;
+        height: 400px; /* Ajuste conforme necessário */
+        border-radius: 8px;
+        border: none;
+    }
+
+    form {
+        background: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+    }
+
+    label {
+        display: block;
+        margin-top: 10px;
+    }
+
+    input[type=number], input[type=submit] {
+        width: calc(100% - 22px);
+        padding: 10px;
+        margin-top: 5px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+        transition: border-color 0.3s;
+    }
+
+    input[type=submit] {
+        background-color: #7F7FD5;
+        color: white;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+        margin-top: 20px;
+    }
+
+        input[type=submit]:hover, input[type=submit]:focus {
+            background-color: #6c63ff;
+        }
+
+    input[type=number]:focus {
+        border-color: #7F7FD5;
+    }
+
+    .resultado-dose {
+        margin-top: 20px;
+        padding: 15px;
+        background-color: #86A8E7;
+        color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+</style>
+  
+

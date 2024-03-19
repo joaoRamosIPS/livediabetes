@@ -35,5 +35,16 @@ namespace LiveDiabetes.Controllers
         {
             return View();
         }
+
+        public IActionResult Medidor()
+        {
+            return View();
+        }
+
+        public IActionResult Tabela()
+        {
+            return View();
+        }
     }
 }
+
