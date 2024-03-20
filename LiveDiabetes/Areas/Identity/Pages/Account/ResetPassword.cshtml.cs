@@ -41,26 +41,31 @@ namespace LiveDiabetes.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
-            [EmailAddress]
+            [Required(ErrorMessage = "Por favor, insira o seu e-mail.")]
+            [EmailAddress(ErrorMessage = "Este e-mail não é um endereço de e-mail válido.")]
+            [Display(Name = "Email")]
             public string Email { get; set; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [Required(ErrorMessage = "Por favor, insira a sua nova password.")]
+            [StringLength(100, ErrorMessage = "A password tem de conter no mínimo 6 caracteres.", MinimumLength = 6)]
+            [RegularExpression(@"^(?=.*[a-z]).+$", ErrorMessage = "A password deve conter pelo menos uma letra.")]
             [DataType(DataType.Password)]
+            [Display(Name = "Password")]
             public string Password { get; set; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
+            [Required(ErrorMessage = "Por favor, insira a sua nova password.")]
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [RegularExpression(@"^(?=.*[0-9]).*$", ErrorMessage = "As passwords têm de conter pelo menos um número.")]
+            [Display(Name = "Confirmar password")]
+            [Compare("Password", ErrorMessage = "As passwords não são iguais.")]
             public string ConfirmPassword { get; set; }
 
             /// <summary>
