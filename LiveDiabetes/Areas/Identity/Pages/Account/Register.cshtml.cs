@@ -102,7 +102,7 @@ namespace LiveDiabetes.Areas.Identity.Pages.Account
             public DateTime DateOfBirth { get; set; }
 
             [Required(ErrorMessage = "Por favor, insira o seu e-mail.")]
-            [EmailAddress(ErrorMessage = "O campo Email não é um endereço de e-mail válido.")]
+            [EmailAddress(ErrorMessage = "Este e-mail não é um endereço de e-mail válido.")]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
@@ -226,7 +226,7 @@ namespace LiveDiabetes.Areas.Identity.Pages.Account
             return Page();
         }
 
-        private async Task<bool> SendEmailAsync(string email, string subject, string confirmLink)
+        private static async Task<bool> SendEmailAsync(string email, string subject, string confirmLink)
         {
             try
             {

@@ -112,30 +112,31 @@ namespace LiveDiabetes.Areas.Identity.Pages.Account
                 return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
             }
 
-            // Sign in the user with this external login provider if the user already has a login.
-            var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
-            if (result.Succeeded)
+            var signInResult = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false);
+
+            if (signInResult.Succeeded)
             {
-                _logger.LogInformation("{Name} logged in with {LoginProvider} provider.", info.Principal.Identity.Name, info.LoginProvider);
+                // Usuário logado com sucesso, redirecione para a página principal
                 return LocalRedirect(returnUrl);
-            }
-            if (result.IsLockedOut)
-            {
-                return RedirectToPage("./Lockout");
             }
             else
             {
-                // If the user does not have an account, then ask the user to create an account.
-                ReturnUrl = returnUrl;
-                ProviderDisplayName = info.ProviderDisplayName;
-                if (info.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
+                // O usuário não existe, então crie uma nova conta automaticamente
+                var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+                var user = new ApplicationUser { UserName = email, Email = email, EmailConfirmed = true };
+                var result = await _userManager.CreateAsync(user);
+                if (result.Succeeded)
                 {
-                    Input = new InputModel
+                    result = await _userManager.AddLoginAsync(user, info);
+                    if (result.Succeeded)
                     {
-                        Email = info.Principal.FindFirstValue(ClaimTypes.Email)
-                    };
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        return LocalRedirect(returnUrl);
+                    }
                 }
-                return Page();
+
+                // Se chegou aqui, algo falhou ao criar o usuário, trate os erros adequadamente
+                return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
             }
         }
 
