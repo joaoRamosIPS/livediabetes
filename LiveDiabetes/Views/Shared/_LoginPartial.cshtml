@@ -29,7 +29,16 @@ else
         var user = await UserManager.GetUserAsync(User);
         if (user != null)
         {
-            return user.FirstName!= null ? $"{user.FirstName} {user.LastName}" :user.Email;
+            if (user.FirstName != null)
+            {
+                return $"{user.FirstName} {user.LastName}";
+            }
+            else
+            {
+                // Separa o email pelo '@' e retorna apenas a parte antes do '@'.
+                var emailPrefix = user.Email.Split('@')[0];
+                return emailPrefix;
+            }
         }
         return "Utilizador Desconhecido";
     }
