@@ -1,0 +1,61 @@
+﻿@{
+    ViewData["Title"] = "SOS - Encontre hospitais próximos";
+}
+
+<div id="map" style="height: 400px; width: 100%;"></div>
+
+<script>
+    function initMap() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                var userLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    center: userLocation,
+                    zoom: 15
+                });
+
+                var request = {
+                    location: userLocation,
+                    radius: '5000',
+                    type: ['hospital']
+                };
+
+                var service = new google.maps.places.PlacesService(map);
+                service.nearbySearch(request, function (results, status) {
+                    if (status === google.maps.places.PlacesServiceStatus.OK) {
+                        for (var i = 0; i < results.length; i++) {
+                            createMarker(results[i], map);
+                        }
+                    }
+                });
+            }, function () {
+                handleLocationError(true, map.getCenter());
+            });
+        } else {
+            // Browser doesn't support Geolocation
+            handleLocationError(false);
+        }
+    }
+
+    function createMarker(place, map) {
+        new google.maps.Marker({
+            map: map,
+            position: place.geometry.location
+        });
+    }
+
+    function handleLocationError(browserHasGeolocation, pos) {
+    var errorMessage = browserHasGeolocation ? 'Error: The Geolocation service failed.' : 'Error: Your browser doesn\'t support geolocation.';
+    var errorElement = document.getElementById('locationError');
+    errorElement.style.display = 'block';
+    errorElement.innerHTML = errorMessage;
+}
+
+</script>
+
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASIaT2MwHe6aZBLVhPC_fOVprHdamlstc&callback=initMap" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=@ViewBag.ApiKey&libraries=places&callback=initMap" async defer></script>
+
+
