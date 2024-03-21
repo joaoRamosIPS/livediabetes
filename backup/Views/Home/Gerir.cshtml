@@ -1,0 +1,266 @@
+﻿@{
+    ViewData["Title"] = "Gerir - Informações sobre Diabetes";
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="text-center">Conhecendo o Diabetes</h1>
+            <p class="text-center lead">Um guia completo sobre Diabetes Tipo 1 e Tipo 2.</p>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <!-- Diabetes Tipo 1 -->
+        <div class="col-md-6 mb-4">
+            <div class="card content-toggle">
+                <div class="card-body">
+                    <h3 class="card-title">Diabetes Tipo 1</h3>
+                    <p class="card-text">Entenda o que é, as causas, sintomas e tratamentos para o Diabetes Tipo 1.</p>
+                    <div class="image-container">
+                        <img src="~/imagens/1.png" alt="Diabetes Tipo 1" class="img-fluid">
+                    </div>
+                    <div class="additional-info" style="display: none;">
+                        <p>Informação adicional sobre Diabetes Tipo 1.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Diabetes Tipo 2 -->
+        <div class="col-md-6 mb-4">
+            <div class="card content-toggle">
+                <div class="card-body">
+                    <h3 class="card-title">Diabetes Tipo 2</h3>
+                    <p class="card-text">Saiba mais sobre o Diabetes Tipo 2: prevenção, gerenciamento e cuidados necessários.</p>
+                    <div class="image-container">
+                        <img src="~/imagens/2.png" alt="Diabetes Tipo 2" class="img-fluid">
+                    </div>
+                    <div class="additional-info" style="display: none;">
+                        <p>Informação adicional sobre Diabetes Tipo 2.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   <!-- Linha do Tempo do Tratamento de Diabetes -->
+   
+      <div class="timeline-container mt-5">
+        <h2 class="text-center mb-4">Evolução do Tratamento do Diabetes</h2>
+        <div class="timeline-line"></div>
+        
+        <!-- 1921: Descoberta da insulina -->
+        <div class="timeline-event">
+            <div class="timeline-date">1921</div>
+            <div class="timeline-content">
+                <p>Descoberta da insulina.</p>
+            </div>
+        </div>
+
+
+
+ <!-- 1921: Descoberta da insulina -->
+        <div class="timeline-event">
+            <div class="timeline-date">1950</div>
+            <div class="timeline-content">
+                <p>Desenvolvimento de insulinas de ação longa.</p>
+            </div>
+        </div>
+
+
+
+ <!-- 1921: Descoberta da insulina -->
+        <div class="timeline-event">
+            <div class="timeline-date">1980</div>
+            <div class="timeline-content">
+                <p>Introdução da monitorização da glicose no sangue.</p>
+            </div>
+        </div>
+
+
+ <!-- 1921: Descoberta da insulina -->
+        <div class="timeline-event">
+            <div class="timeline-date">2000</div>
+            <div class="timeline-content">
+                <p>A popularizaçao das bombas de insulina melhora a qualidade de vida dos passientes.</p>
+            </div>
+        </div>
+
+
+
+ <!-- 1921: Descoberta da insulina -->
+        <div class="timeline-event">
+            <div class="timeline-date">2010</div>
+            <div class="timeline-content">
+                <p>Avanços significativos em terapias com celulas-tronco para diabetes tipo 1.</p>
+            </div>
+        </div>
+
+
+
+ <!-- 1921: Descoberta da insulina -->
+        <div class="timeline-event">
+            <div class="timeline-date">2020</div>
+            <div class="timeline-content">
+                <p>maior adoçao de distemas de monitoramento continuo de glicose.</p>
+            </div>
+        </div>
+
+
+
+
+ <!-- 1921: Descoberta da insulina -->
+        <div class="timeline-event">
+            <div class="timeline-date">2024</div>
+            <div class="timeline-content">
+                <p>Introduçao de novos tratamentos nao invasivos para gerir a diabetes.</p>
+            </div>
+        </div>
+   </div>
+ 
+
+    <!-- Mito vs Verdade -->
+    <div class="myth-fact-section mt-5">
+        <h2 class="text-center mb-4">Mitos e Verdades sobre Diabetes</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <h4>Mito</h4>
+                <p>Diabetes é causada apenas pelo consumo excessivo de açúcar.</p>
+            </div>
+            <div class="col-md-6">
+                <h4>Verdade</h4>
+                <p>Diabetes é uma doença multifatorial e pode ser influenciada por vários fatores, não apenas pela dieta.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s, background-color 0.5s ease;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+    }
+
+    .content-toggle .card-body {
+        transition: background-color 0.5s ease;
+    }
+
+    .content-toggle:hover .card-body {
+        background-color: #f9f9f9;
+    }
+
+    .image-container {
+        height: 200px;
+        overflow: hidden;
+        transition: opacity 0.5s ease;
+    }
+
+    .content-toggle:hover .image-container {
+        opacity: 0;
+    }
+
+    .additional-info {
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0s, opacity 0.5s linear;
+        height: 0;
+        overflow: hidden;
+    }
+
+    .content-toggle:hover .additional-info {
+        visibility: visible;
+        opacity: 1;
+        height: auto;
+        transition: opacity 0.5s linear;
+    }
+
+    .timeline, .myth-fact-section {
+        background-color: #f4f4f4;
+        padding: 20px;
+        border-radius: 8px;
+    }
+
+    .timeline-container {
+        position: relative;
+        width: 100%;
+        padding: 40px 0;
+    }
+
+    .timeline-line {
+        position: absolute;
+        left: 50%;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background-color: #007bff;
+        z-index: 1;
+    }
+
+    .timeline-event {
+        position: relative;
+        display: flex;
+        justify-content: space-between; /* Isso irá posicionar os filhos nos extremos opostos */
+        margin-bottom: 30px;
+    }
+
+    .timeline-date {
+        width: 50px; /* Defina uma largura suficiente para as datas */
+        color: #007bff;
+        font-weight: bold;
+        text-align: center;
+        z-index: 2;
+    }
+
+    .timeline-content {
+        padding: 10px 20px;
+        background-color: #fff;
+        border-radius: 6px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        position: relative;
+        z-index: 2;
+        width: calc(50% - 70px); /* Ajusta a largura para não sobrepor a linha do tempo */
+    }
+
+    /* Alinha a data e o conteúdo à esquerda */
+    .timeline-event:nth-of-type(odd) .timeline-date,
+    .timeline-event:nth-of-type(odd) .timeline-content {
+        left: 0;
+        transform: translateX(0);
+    }
+
+    /* Alinha a data e o conteúdo à direita */
+    .timeline-event:nth-of-type(even) .timeline-date,
+    .timeline-event:nth-of-type(even) .timeline-content {
+        right: 0;
+        transform: translateX(0);
+    }
+
+    .timeline-event::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        background-color: #007bff;
+        border: 3px solid #fff;
+        z-index: 3;
+    }
+
+    /* Remove o pseudo-elemento adicional de dentro do conteúdo */
+    .timeline-event .timeline-content::before {
+        display: none;
+    }
+
+
+</style>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>

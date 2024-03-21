@@ -1,0 +1,71 @@
+﻿@{
+    ViewData["Title"] = "Medidor";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Leitura de Glicemia via NFC</title>
+    <style>
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+
+            button:hover {
+                opacity: 0.8;
+            }
+
+        #valorGlicemia {
+            font-size: 20px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <button id="btnLerGlicemia">Ler Glicemia</button>
+        <div id="valorGlicemia">Aproxime o dispositivo da tag NFC...</div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const btnLerGlicemia = document.getElementById('btnLerGlicemia');
+            const valorGlicemia = document.getElementById('valorGlicemia');
+
+            btnLerGlicemia.addEventListener('click', async () => {
+                if ('NDEFReader' in window) {
+                    try {
+                        const ndef = new NDEFReader();
+                        await ndef.scan();
+                        valorGlicemia.textContent = 'Aproxime o dispositivo da tag NFC...';
+
+                        ndef.addEventListener('reading', ({ message, serialNumber }) => {
+                            for (const record of message.records) {
+                                switch (record.recordType) {
+                                    case 'text':
+                                        const textDecoder = new TextDecoder(record.encoding);
+                                        valorGlicemia.textContent = `Valor da glicemia: ${textDecoder.decode(record.data)}`;
+                                        break;
+                                }
+                            }
+                        });
+
+                    } catch (error) {
+                        console.error(`Error: ${error}`);
+                        valorGlicemia.textContent = `Erro: ${error}`;
+                    }
+                } else {
+                    valorGlicemia.textContent = 'Web NFC não é suportado neste dispositivo/navegador.';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
