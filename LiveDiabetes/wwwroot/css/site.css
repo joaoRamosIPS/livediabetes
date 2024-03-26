@@ -60,3 +60,93 @@ body {
 .google-btn img {
     margin-right: 10px;
 }
+
+/* Ajusta a largura base para telas pequenas e usa o Bootstrap para tamanhos maiores */
+.card.login-logout-card {
+    width: 100%; /* Faz com que o cartão ocupe a largura total em telas pequenas */
+    max-width: 540px; /* Pode ajustar este valor conforme necessário */
+    margin: auto; /* Isso ajuda a centralizar o cartão na página */
+}
+
+/* Utiliza as classes do Bootstrap para definir a largura da coluna baseada no tamanho da tela */
+@media (min-width: 576px) { /* telas pequenas */
+    .card.login-logout-card {
+        max-width: 540px;
+    }
+}
+
+@media (min-width: 768px) { /* telas médias */
+    .card.login-logout-card {
+        max-width: 720px;
+    }
+}
+
+@media (min-width: 992px) { /* telas grandes */
+    .card.login-logout-card {
+        max-width: 960px;
+    }
+}
+
+@media (min-width: 1200px) { /* telas extra grandes */
+    .card.login-logout-card {
+        max-width: 1140px;
+    }
+}
+
+/* Certifica que a imagem do logotipo é responsiva e não excede a largura do cartão */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+body {
+    background-color: #f4f6f9;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.display-4 {
+    color: #343a40;
+    font-size: 2.5rem;
+    font-weight: 300;
+    margin-bottom: 1rem;
+}
+
+.lead {
+    font-size: 1.05rem;
+    font-weight: 300;
+}
+
+.card {
+    border: none;
+    border-radius: 10px;
+    transition: transform 0.3s ease-in-out;
+}
+
+    .card:hover {
+        transform: translateY(-10px);
+    }
+
+.card-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.card-text {
+    font-size: 1rem;
+    font-weight: 300;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #004085;
+    }
+
+.stretched-link::after {
+    display: none;
+}
+
