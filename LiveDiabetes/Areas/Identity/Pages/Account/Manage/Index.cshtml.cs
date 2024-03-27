@@ -16,14 +16,11 @@ namespace LiveDiabetes.Areas.Identity.Pages.Account.Manage
     public class IndexModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
 
         public IndexModel(
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager)
+            UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
-            _signInManager = signInManager;
         }
 
         /// <summary>
@@ -56,21 +53,50 @@ namespace LiveDiabetes.Areas.Identity.Pages.Account.Manage
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Phone]
-            [Display(Name = "Phone number")]
-            public string PhoneNumber { get; set; }
+            
+            [Display(Name = "Primeiro Nome")]
+            public string FirstName { get; set; }
+
+            
+            [Display(Name = "Último Nome")]
+            public string LastName { get; set; }
+
+            
+            [Display(Name = "Género")]
+            public string Gender { get; set; }
+
+            
+            [DataType(DataType.Date)]
+            [CheckYear(ErrorMessage = "O ano não pode ultrapassar 2018.")]
+            [Display(Name = "Data de Nascimento")]
+            public DateTime DateOfBirth { get; set; }
+
+        }
+
+        public class CheckYearAttribute : ValidationAttribute
+        {
+            protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+            {
+                DateTime dt = (DateTime)value;
+                if (dt.Year > 2018)
+                {
+                    return new ValidationResult(ErrorMessage ?? "O ano não pode ultrapassar 2018.");
+                }
+
+                return ValidationResult.Success;
+            }
         }
 
         private async Task LoadAsync(ApplicationUser user)
         {
-            var userName = await _userManager.GetUserNameAsync(user);
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-
-            Username = userName;
+            await Task.Delay(1);
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Gender = user.Gender,
+                DateOfBirth = (DateTime)user.DateOfBirth
             };
         }
 
@@ -86,7 +112,7 @@ namespace LiveDiabetes.Areas.Identity.Pages.Account.Manage
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostFirstNameAsync()
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
@@ -96,24 +122,107 @@ namespace LiveDiabetes.Areas.Identity.Pages.Account.Manage
 
             if (!ModelState.IsValid)
             {
-                await LoadAsync(user);
                 return Page();
             }
 
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-            if (Input.PhoneNumber != phoneNumber)
+            user.FirstName = Input.FirstName;
+            var result = await _userManager.UpdateAsync(user);
+            if (!result.Succeeded)
             {
-                var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
-                if (!setPhoneResult.Succeeded)
+                foreach (var error in result.Errors)
                 {
-                    StatusMessage = "Unexpected error when trying to set phone number.";
-                    return RedirectToPage();
+                    ModelState.AddModelError(string.Empty, error.Description);
                 }
+                return Page();
             }
 
-            await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your profile has been updated";
+            StatusMessage = "O seu primeiro nome foi atualizado";
             return RedirectToPage();
         }
+
+        public async Task<IActionResult> OnPostLastNameAsync()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            user.LastName = Input.LastName;
+            var result = await _userManager.UpdateAsync(user);
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+                return Page();
+            }
+
+            StatusMessage = "O seu último nome foi atualizado";
+            return RedirectToPage();
+        }
+
+        public async Task<IActionResult> OnPostGenderAsync()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            user.Gender = Input.Gender;
+            var result = await _userManager.UpdateAsync(user);
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+                return Page();
+            }
+
+            StatusMessage = "O seu género foi atualizado";
+            return RedirectToPage();
+        }
+
+        public async Task<IActionResult> OnPostDateOfBirthAsync()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            user.DateOfBirth = Input.DateOfBirth;
+            var result = await _userManager.UpdateAsync(user);
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+                return Page();
+            }
+
+            StatusMessage = "A sua data de nascimento foi atualizada";
+            return RedirectToPage();
+        }
+ 
     }
 }

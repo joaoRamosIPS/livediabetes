@@ -68,7 +68,7 @@ namespace LiveDiabetes.Areas.Identity.Pages.Account.Manage
             [StringLength(100, ErrorMessage = "A password tem de conter no mínimo 6 caracteres.", MinimumLength = 6)]
             [RegularExpression(@"^(?=.*[a-z]).+$", ErrorMessage = "A password deve conter pelo menos uma letra.")]
             [DataType(DataType.Password)]
-            [Display(Name = "New password")]
+            [Display(Name = "Nova password")]
             public string NewPassword { get; set; }
 
             /// <summary>
@@ -117,14 +117,22 @@ namespace LiveDiabetes.Areas.Identity.Pages.Account.Manage
             {
                 foreach (var error in changePasswordResult.Errors)
                 {
-                    ModelState.AddModelError(string.Empty, error.Description);
+                    // Verifica se o erro é devido a uma senha atual incorreta e personaliza a mensagem de erro.
+                    if (error.Code == "PasswordMismatch")
+                    {
+                        ModelState.AddModelError(string.Empty, "A password atual está errada.");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
                 }
                 return Page();
             }
 
             await _signInManager.RefreshSignInAsync(user);
             _logger.LogInformation("User changed their password successfully.");
-            StatusMessage = "Your password has been changed.";
+            StatusMessage = "A tua password foi alterada com sucesso!.";
 
             return RedirectToPage();
         }
