@@ -3,59 +3,107 @@
 }
 
 <div id="map" style="height: 400px; width: 100%;"></div>
+<div id="directionsPanel" style="width: 100%; height: 100%;"></div> <!-- Painel para as instruções de direção -->
 
 <script>
-    function initMap() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function (position) {
-                var userLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+    var map, userMarker, directionsService, directionsRenderer, userLocation, destination;
 
-                var map = new google.maps.Map(document.getElementById('map'), {
-                    center: userLocation,
-                    zoom: 15
-                });
+    function isMobileDevice() {
+        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    }
+
+    function initMap() {
+        directionsService = new google.maps.DirectionsService();
+        directionsRenderer = new google.maps.DirectionsRenderer({ map: map, panel: document.getElementById('directionsPanel') });
+        map = new google.maps.Map(document.getElementById('map'), { zoom: 15 });
+        directionsRenderer.setMap(map);
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(position => {
+                userLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                map.setCenter(userLocation);
+
+                if (isMobileDevice()) {
+                    userMarker = new google.maps.Marker({
+                        position: userLocation,
+                        map: map,
+                        title: 'You are here!'
+                    });
+                }
+
+                watchUserPosition();
 
                 var request = {
                     location: userLocation,
                     radius: '5000',
-                    type: ['hospital']
+                    keyword: 'hospital',
                 };
 
                 var service = new google.maps.places.PlacesService(map);
-                service.nearbySearch(request, function (results, status) {
+                service.nearbySearch(request, (results, status) => {
                     if (status === google.maps.places.PlacesServiceStatus.OK) {
                         for (var i = 0; i < results.length; i++) {
                             createMarker(results[i], map);
                         }
                     }
                 });
-            }, function () {
-                handleLocationError(true, map.getCenter());
-            });
+            }, () => handleLocationError(true, map.getCenter()), { enableHighAccuracy: true });
         } else {
-            // Browser doesn't support Geolocation
             handleLocationError(false);
         }
     }
 
+    function watchUserPosition() {
+        navigator.geolocation.watchPosition(position => {
+            var newPos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+            if (!userLocation.equals(newPos)) {
+                userLocation = newPos;
+                userMarker.setPosition(userLocation);
+                if (destination) {
+                    calculateAndDisplayRoute(directionsService, directionsRenderer, userLocation, destination);
+                }
+            }
+        }, null, { enableHighAccuracy: true, maximumAge: 1000, timeout: 5000 });
+    }
+
     function createMarker(place, map) {
-        new google.maps.Marker({
+        var marker = new google.maps.Marker({
             map: map,
             position: place.geometry.location
+        });
+
+        marker.addListener('click', () => {
+            destination = place.geometry.location;
+            calculateAndDisplayRoute(directionsService, directionsRenderer, userLocation, destination);
+        });
+    }
+
+    function calculateAndDisplayRoute(directionsService, directionsRenderer, origin, destination) {
+        directionsService.route({
+            origin: origin,
+            destination: destination,
+            travelMode: 'DRIVING'
+        }, (response, status) => {
+            if (status === 'OK') {
+                directionsRenderer.setDirections(response);
+            } else {
+                window.alert('Directions request failed due to ' + status);
+            }
         });
     }
 
     function handleLocationError(browserHasGeolocation, pos) {
-    var errorMessage = browserHasGeolocation ? 'Error: The Geolocation service failed.' : 'Error: Your browser doesn\'t support geolocation.';
-    var errorElement = document.getElementById('locationError');
-    errorElement.style.display = 'block';
-    errorElement.innerHTML = errorMessage;
-}
-
+        var errorMessage = browserHasGeolocation ?
+            'Error: The Geolocation service failed.' :
+            'Error: Your browser doesn\'t support geolocation.';
+        var errorElement = document.getElementById('locationError');
+        if (errorElement) {
+            errorElement.style.display = 'block';
+            errorElement.innerHTML = errorMessage;
+        }
+    }
 </script>
 
-
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASIaT2MwHe6aZBLVhPC_fOVprHdamlstc&callback=initMap" async defer></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=@ViewBag.ApiKey&libraries=places&callback=initMap" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASIaT2MwHe6aZBLVhPC_fOVprHdamlstc&libraries=places&callback=initMap" async defer></script>
 
 
