@@ -5,6 +5,11 @@ VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiveDiabetes", "LiveDiabetes\LiveDiabetes.csproj", "{15A9E5D8-5ABD-482C-AE7C-12188AF6FCCB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveDiabetesTestes", "LiveDiabetesTestes\LiveDiabetesTestes.csproj", "{BFF862E1-E14C-4196-920D-A822E1A7E455}"
+	ProjectSection(ProjectDependencies) = postProject
+		{15A9E5D8-5ABD-482C-AE7C-12188AF6FCCB} = {15A9E5D8-5ABD-482C-AE7C-12188AF6FCCB}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +20,10 @@ Global
 		{15A9E5D8-5ABD-482C-AE7C-12188AF6FCCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15A9E5D8-5ABD-482C-AE7C-12188AF6FCCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{15A9E5D8-5ABD-482C-AE7C-12188AF6FCCB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFF862E1-E14C-4196-920D-A822E1A7E455}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFF862E1-E14C-4196-920D-A822E1A7E455}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFF862E1-E14C-4196-920D-A822E1A7E455}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFF862E1-E14C-4196-920D-A822E1A7E455}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
