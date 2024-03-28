@@ -26,6 +26,5 @@ namespace LiveDiabetes.Controllers
                 return View("~/Views/Home/Tabela.cshtml");
             }
         }
-
     }
 }

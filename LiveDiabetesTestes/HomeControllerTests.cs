@@ -3,7 +3,7 @@ using LiveDiabetes.Models;
 using Microsoft.AspNetCore.Mvc;
 using Xunit;
 
-namespace LiveDiabetesTeste
+namespace LiveDiabetesTestes
 {
     public class HomeControllerTests{
         [Fact]
@@ -55,6 +55,34 @@ namespace LiveDiabetesTeste
 
             //Act
             var result = controller.SOS();
+
+            //Assert
+            Assert.IsType<ViewResult>(result);
+        }
+
+        [Fact]
+        public void Index_ReturnViewResult()
+        {
+
+            //Avarege
+            var controller = new HomeController(null);
+
+            //Act
+            var result = controller.Index();
+
+            //Assert
+            Assert.IsType<ViewResult>(result);
+        }
+
+        [Fact]
+        public void Privacy_ReturnViewResult()
+        {
+
+            //Avarege
+            var controller = new HomeController(null);
+
+            //Act
+            var result = controller.Privacy();
 
             //Assert
             Assert.IsType<ViewResult>(result);
